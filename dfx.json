@@ -1,0 +1,27 @@
+{
+  "canisters": {
+    "blog_backend": {
+      "candid": "src/blog_backend/blog_backend.did",
+      "package": "blog_backend",
+      "type": "rust"
+    },
+    "blog_frontend": {
+      "dependencies": [
+        "blog_backend"
+      ],
+      "source": [
+        "src/blog_frontend/dist"
+      ],
+      "type": "assets",
+      "workspace": "blog_frontend"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}
