@@ -14,6 +14,14 @@ fn add_blog(title: String, content: String, tags: Vec<String>) -> Result<String,
         return Err("Title is too long!".to_string());
     }
 
+    if content.len() > 500 {
+        return Err("Content is too long!".to_string());
+    }
+
+    if tags.len() > 3 {
+        return Err("Too much tags!".to_string());
+    }
+
     BLOGS.with(|blogs| blogs.borrow_mut().push(
             Blog::new(title, content, tags))
         );
