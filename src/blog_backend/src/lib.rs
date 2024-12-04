@@ -12,6 +12,11 @@ thread_local!{
 }
 
 #[ic_cdk::update]
+fn add_config(new_config: Config) {
+    CONFIG.with(|config| *config.borrow_mut() = new_config);
+}
+
+#[ic_cdk::update]
 fn add_blog(title: String, content: String, tags: Vec<String>) -> Result<String, String> {
     let config = CONFIG.with(|config| config.borrow().clone());
 
@@ -25,6 +30,11 @@ fn add_blog(title: String, content: String, tags: Vec<String>) -> Result<String,
 
     if tags.len() > config.max_tags_count as usize {
         return Err("Too much tags!".to_string());
+    }
+
+    let are_tags_in_config_tags = tags.iter().any(|tag| !config.tags.contains(tag));
+    if are_tags_in_config_tags {
+        return Err("Tags are not valid!".to_string()) 
     }
 
     BLOGS.with(|blogs| blogs.borrow_mut().push(
