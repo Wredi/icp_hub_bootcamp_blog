@@ -16,6 +16,11 @@ fn add_config(new_config: Config) {
     CONFIG.with(|config| *config.borrow_mut() = new_config);
 }
 
+#[ic_cdk::query]
+fn get_config() -> Config {
+    CONFIG.with(|config| config.borrow().clone())
+}
+
 #[ic_cdk::update]
 fn add_blog(title: String, content: String, tags: Vec<String>) -> Result<String, String> {
     let config = CONFIG.with(|config| config.borrow().clone());
